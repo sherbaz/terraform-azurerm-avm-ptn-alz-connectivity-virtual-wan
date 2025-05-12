@@ -1,16 +1,9 @@
 <!-- BEGIN_TF_DOCS -->
-# terraform-azurerm-avm-template
+# Azure Landing Zones Platform Landing Zone Connnectivity with Virtual WAN
 
-This is a template repo for Terraform Azure Verified Modules.
+This module deploys a virtual WAN topology aligned to the Azure Landing Zones (ALZ) and Microsoft Cloud Adoption Framework (CAF) for Azure. The module is designed to be used in conjunction with the [Azure Verified Modules](https://aka.ms/AVM) initiative and is part of the [Microsoft Cloud Adoption Framework Azure Landing Zones](https://aka.ms/alz).
 
-Things to do:
-
-1. Set up a GitHub repo environment called `test`.
-1. Configure environment protection rule to ensure that approval is required before deploying to this environment.
-1. Create a user-assigned managed identity in your test subscription.
-1. Create a role assignment for the managed identity on your test subscription, use the minimum required role.
-1. Configure federated identity credentials on the user assigned managed identity. Use the GitHub environment.
-1. Search and update TODOs within the code and remove the TODO comments once complete.
+This module is leveraged by the [Azure Landing Zones IaC Accelerator](https://aka.ms/alz), head over there to learn more. It is part of the Azure Verified Modules for Platform Landing Zone (ALZ) set of modules.
 
 <!-- markdownlint-disable MD033 -->
 ## Requirements
@@ -83,6 +76,7 @@ map(object({
     firewall        = optional(any)
     firewall_policy = optional(any)
     bastion = optional(object({
+      enabled               = optional(bool, true)
       subnet_address_prefix = string
       bastion_host          = any
       bastion_public_ip     = any
@@ -92,6 +86,7 @@ map(object({
       vpn           = optional(any)
     }))
     private_dns_zones = optional(object({
+      enabled             = optional(bool, true)
       resource_group_name = string
       is_primary          = optional(bool, false)
       private_link_private_dns_zones = optional(map(object({
@@ -102,6 +97,7 @@ map(object({
       subnet_address_prefix          = string
       subnet_name                    = optional(string, "dns-resolver")
       private_dns_resolver = object({
+        enabled             = optional(bool, true)
         name                = string
         resource_group_name = optional(string)
         ip_address          = optional(string)
@@ -119,7 +115,7 @@ Description: The shared settings for the Virtual WAN. This is where global resou
 
 The following attributes are supported:
 
-  - ddos\_protection\_plan: (Optional) The DDoS protection plan settings. Detailed information about the DDoS protection plan can be found in the module's README: https://registry.terraform.io/modules/Azure/avm-ptn-ddosprotectionplan  
+  - ddos\_protection\_plan: (Optional) The DDoS protection plan settings. Detailed information about the DDoS protection plan can be found in the module's README: https://registry.terraform.io/modules/Azure/avm-ptn-ddosprotectionplan
 
 The Virtual WAN module attributes are also supported. Detailed information about the Virtual WAN module variables can be found in the module's README: https://registry.terraform.io/modules/Azure/avm-ptn-virtualwan
 
@@ -179,7 +175,7 @@ The following Modules are called:
 
 Source: Azure/avm-res-network-bastionhost/azurerm
 
-Version: 0.4.0
+Version: 0.7.2
 
 ### <a name="module_bastion_public_ip"></a> [bastion\_public\_ip](#module\_bastion\_public\_ip)
 
@@ -197,37 +193,37 @@ Version: 0.3.0
 
 Source: Azure/avm-res-network-dnsresolver/azurerm
 
-Version: 0.4.0
+Version: 0.7.3
 
 ### <a name="module_firewall_policy"></a> [firewall\_policy](#module\_firewall\_policy)
 
 Source: Azure/avm-res-network-firewallpolicy/azurerm
 
-Version: 0.3.2
+Version: 0.3.3
 
 ### <a name="module_private_dns_zone_auto_registration"></a> [private\_dns\_zone\_auto\_registration](#module\_private\_dns\_zone\_auto\_registration)
 
 Source: Azure/avm-res-network-privatednszone/azurerm
 
-Version: 0.2.2
+Version: 0.3.3
 
 ### <a name="module_private_dns_zones"></a> [private\_dns\_zones](#module\_private\_dns\_zones)
 
 Source: Azure/avm-ptn-network-private-link-private-dns-zones/azurerm
 
-Version: 0.7.1
+Version: 0.10.1
 
 ### <a name="module_virtual_network_side_car"></a> [virtual\_network\_side\_car](#module\_virtual\_network\_side\_car)
 
 Source: Azure/avm-res-network-virtualnetwork/azurerm
 
-Version: 0.7.1
+Version: 0.8.1
 
 ### <a name="module_virtual_wan"></a> [virtual\_wan](#module\_virtual\_wan)
 
 Source: Azure/avm-ptn-virtualwan/azurerm
 
-Version: 0.11.0
+Version: 0.11.1
 
 <!-- markdownlint-disable-next-line MD041 -->
 ## Data Collection
